@@ -206,7 +206,7 @@ const ComposerAction: FC = () => {
         // aui-composer-attachment-button
         className="hover:bg-foreground/15 dark:hover:bg-background/50 scale-115 p-3.5"
         onClick={() => {
-          console.log("Attachment clicked - not implemented");
+          // TODO: Implement file attachment functionality
         }}
       >
         <PlusIcon />

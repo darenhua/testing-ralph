@@ -1,0 +1,161 @@
+.latex-preview {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* LaTeX document styling */
+.latex-preview .prose {
+  font-family: 'Computer Modern', 'Latin Modern', Georgia, 'Times New Roman', serif;
+  line-height: 1.6;
+}
+
+/* Math display styling */
+.latex-preview .katex-display {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Inline math styling */
+.latex-preview .katex {
+  font-size: 1.1em;
+}
+
+/* Section styling */
+.latex-preview h1 {
+  font-size: 2em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.latex-preview h2 {
+  font-size: 1.5em;
+  margin-top: 1em;  
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.latex-preview h3 {
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+/* List styling */
+.latex-preview ul {
+  list-style-type: disc;
+  margin-left: 2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.latex-preview ol {
+  list-style-type: decimal;
+  margin-left: 2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Equation numbering */
+.latex-preview .katex-display::after {
+  content: attr(data-eq-number);
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted-foreground);
+}
+
+/* Theorem environments */
+.latex-preview .theorem,
+.latex-preview .lemma,
+.latex-preview .proposition,
+.latex-preview .corollary,
+.latex-preview .definition {
+  display: block;
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--border);
+  background-color: var(--muted);
+}
+
+.latex-preview .theorem::before {
+  content: "Theorem. ";
+  font-weight: bold;
+}
+
+.latex-preview .lemma::before {
+  content: "Lemma. ";
+  font-weight: bold;
+}
+
+.latex-preview .definition::before {
+  content: "Definition. ";
+  font-weight: bold;
+}
+
+.latex-preview .proposition::before {
+  content: "Proposition. ";
+  font-weight: bold;
+}
+
+.latex-preview .corollary::before {
+  content: "Corollary. ";
+  font-weight: bold;
+}
+
+/* Proof environment */
+.latex-preview .proof {
+  display: block;
+  margin: 1em 0;
+}
+
+.latex-preview .proof::before {
+  content: "Proof. ";
+  font-style: italic;
+}
+
+.latex-preview .proof::after {
+  content: " □";
+  float: right;
+}
+
+/* Code blocks */
+.latex-preview pre {
+  background-color: var(--muted);
+  padding: 1em;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Tables */
+.latex-preview table {
+  border-collapse: collapse;
+  margin: 1em auto;
+  width: auto;
+}
+
+.latex-preview th,
+.latex-preview td {
+  border: 1px solid var(--border);
+  padding: 0.5em 1em;
+}
+
+.latex-preview th {
+  background-color: var(--muted);
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .latex-preview .katex-display {
+    font-size: 0.9em;
+  }
+  
+  .latex-preview .prose {
+    font-size: 0.95em;
+  }
+}

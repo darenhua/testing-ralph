@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readUploadedFile, uploadExists, getUploadedFiles } from '@/../../src/backend/utils/file-storage';
+import { readUploadedFile, uploadExists, getUploadedFiles } from '@/backend/utils/file-storage';
 
 type RouteParams = {
   params: Promise<{
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       }
 
       // Return file content with appropriate headers
-      const response = new NextResponse(fileContent as any);
+      const response = new NextResponse(fileContent as unknown as BodyInit);
       response.headers.set('Content-Type', 'text/plain; charset=utf-8');
       response.headers.set('Content-Disposition', `attachment; filename="${filename}"`);
       

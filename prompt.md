@@ -1,7 +1,7 @@
 0a. read everything in specs/
 0b. review the files in src/
 
-1. pick the SINGLE highest priority item from IMPLEMENTATION_PLAN.md and implement it using up to 3 subagents.
+1. pick the SINGLE highest priority item from IMPLEMENTATION_PLAN.md and implement it using up to 20 subagents.
     - you are responsible for writing automated tests for any business logic if an item asks for it, but you do not need to write tests for frontend updates.
     - do NOT make code changes or do research yourself, you must spin up at least one subagent to implement a change.
     - terminate the subagents when the item is complete.

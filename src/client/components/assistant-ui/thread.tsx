@@ -18,6 +18,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   Square,
+  FileTextIcon,
 } from "lucide-react";
 
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
@@ -26,8 +27,29 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MarkdownText } from "./markdown-text";
 import { ToolFallback } from "./tool-fallback";
+import { useFile } from "@/contexts/file-context";
+import { useState, useEffect } from "react";
 
 export const Thread: FC = () => {
+  const { fileId } = useFile();
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (fileId) {
+      // Fetch file info to get the filename
+      fetch(`/api/files/${fileId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.files && data.files.length > 0) {
+            // Find the original .tex file (not the clone)
+            const texFile = data.files.find((f: string) => f.endsWith('.tex') && f !== 'file_clone.tex');
+            setFileName(texFile || data.files[0]);
+          }
+        })
+        .catch(err => console.error('Error fetching file info:', err));
+    }
+  }, [fileId]);
+
   return (
     <ThreadPrimitive.Root
       // aui-thread-root
@@ -37,6 +59,16 @@ export const Thread: FC = () => {
         ["--thread-padding-x" as string]: "1rem",
       }}
     >
+      {/* File info banner */}
+      {fileId && fileName && (
+        <div className="bg-muted/50 border-b px-4 py-2">
+          <div className="mx-auto flex max-w-[var(--thread-max-width)] items-center gap-2 text-sm text-muted-foreground">
+            <FileTextIcon className="h-4 w-4" />
+            <span>Working with: <span className="font-medium text-foreground">{fileName}</span></span>
+          </div>
+        </div>
+      )}
+
       {/* aui-thread-viewport */}
       <ThreadPrimitive.Viewport className="relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll">
         <ThreadWelcome />
@@ -76,6 +108,8 @@ const ThreadScrollToBottom: FC = () => {
 };
 
 const ThreadWelcome: FC = () => {
+  const { fileId } = useFile();
+  
   return (
     <ThreadPrimitive.Empty>
       {/* aui-thread-welcome-root */}
@@ -92,7 +126,7 @@ const ThreadWelcome: FC = () => {
               // aui-thread-welcome-message-motion-1
               className="text-2xl font-semibold"
             >
-              Hello there!
+              {fileId ? "Your homework is ready!" : "Hello there!"}
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -102,7 +136,7 @@ const ThreadWelcome: FC = () => {
               // aui-thread-welcome-message-motion-2
               className="text-muted-foreground/65 text-2xl"
             >
-              How can I help you today?
+              {fileId ? "What would you like help with?" : "How can I help you today?"}
             </motion.div>
           </div>
         </div>
@@ -112,31 +146,60 @@ const ThreadWelcome: FC = () => {
 };
 
 const ThreadWelcomeSuggestions: FC = () => {
+  const { fileId } = useFile();
+  
+  const mathSuggestions = [
+    {
+      title: "Help me solve",
+      label: "problem 1 step by step",
+      action: "Help me solve problem 1 step by step",
+    },
+    {
+      title: "Explain the concept",
+      label: "in problem 2",
+      action: "Can you explain the mathematical concept used in problem 2?",
+    },
+    {
+      title: "Check my work",
+      label: "for problem 3",
+      action: "Can you check if my approach for problem 3 is correct?",
+    },
+    {
+      title: "Give me hints",
+      label: "for the hardest problem",
+      action: "Can you give me hints for the hardest problem without solving it completely?",
+    },
+  ];
+  
+  const generalSuggestions = [
+    {
+      title: "What are the advantages",
+      label: "of using Assistant Cloud?",
+      action: "What are the advantages of using Assistant Cloud?",
+    },
+    {
+      title: "Write code to",
+      label: `demonstrate topological sorting`,
+      action: `Write code to demonstrate topological sorting`,
+    },
+    {
+      title: "Help me write an essay",
+      label: `about AI chat applications`,
+      action: `Help me write an essay about AI chat applications`,
+    },
+    {
+      title: "What is the weather",
+      label: "in San Francisco?",
+      action: "What is the weather in San Francisco?",
+    },
+  ];
+  
+  const suggestions = fileId ? mathSuggestions : generalSuggestions;
+  
   return (
     // aui-thread-welcome-suggestions
     <div className="grid w-full gap-2 sm:grid-cols-2">
-      {[
-        {
-          title: "What are the advantages",
-          label: "of using Assistant Cloud?",
-          action: "What are the advantages of using Assistant Cloud?",
-        },
-        {
-          title: "Write code to",
-          label: `demonstrate topological sorting`,
-          action: `Write code to demonstrate topological sorting`,
-        },
-        {
-          title: "Help me write an essay",
-          label: `about AI chat applications`,
-          action: `Help me write an essay about AI chat applications`,
-        },
-        {
-          title: "What is the weather",
-          label: "in San Francisco?",
-          action: "What is the weather in San Francisco?",
-        },
-      ].map((suggestedAction, index) => (
+      {suggestions.map((suggestedAction, index) => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -206,7 +269,7 @@ const ComposerAction: FC = () => {
         // aui-composer-attachment-button
         className="hover:bg-foreground/15 dark:hover:bg-background/50 scale-115 p-3.5"
         onClick={() => {
-          // TODO: Implement file attachment functionality
+          // File attachment could be implemented here
         }}
       >
         <PlusIcon />

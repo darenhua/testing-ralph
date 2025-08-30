@@ -1,24 +1,29 @@
 # Agent Work Plan
 
-## Current Task: Priority 1 - Project Setup and Infrastructure
+## Current Task: Priority 2 - File Upload Screen
 
-Based on the IMPLEMENTATION_PLAN.md, the project setup is partially complete but needs finalization:
+Based on the IMPLEMENTATION_PLAN.md, Priority 1 is complete and we're now working on Priority 2.
 
-### Already Completed:
-- ✅ Next.js project initialized with app router
-- ✅ TypeScript configured
-- ✅ Project directory structure created
-- ✅ assistant-ui library integrated
+### Priority 2 Tasks to Implement:
+1. [ ] Implement React Dropzone component
+   - [ ] Create drag-and-drop UI with proper messaging
+   - [ ] Add file type validation (.tex only)
+   - [ ] Add upload state handling and visual feedback
+2. [ ] Create backend storage system
+   - [ ] Implement file upload endpoint
+   - [ ] Create random ID generation for files
+   - [ ] Set up storage directory structure (/storage/{random_id})
+   - [ ] Implement file cloning (file_clone.tex)
+3. [ ] Add React context for file ID storage
+4. [ ] Implement conditional rendering between upload and chat screens
 
-### To Complete:
-1. [ ] Set up ESLint configuration (appears to be missing or incomplete)
-2. [ ] Configure required dependencies for the math homework assistant features
+## Implementation Strategy:
+I will use up to 3 subagents to implement these features:
+1. **Subagent 1**: Implement the React Dropzone component and frontend UI
+2. **Subagent 2**: Create the backend storage system and API endpoints
+3. **Subagent 3**: Integrate the frontend and backend, add React context, and implement screen transitions
 
-## Analysis:
-Looking at the current implementation, the project has been set up as a general chat assistant using assistant-ui. However, it needs to be adapted for the specific math homework use case with:
-- File upload capabilities
-- LaTeX rendering and preview
-- PDF generation
-- Backend storage system
-
-The highest priority item that needs implementation is completing the ESLint setup to ensure code quality standards are met for future development.
+## Notes:
+- The project already has react-dropzone installed as a dependency
+- The current app is a chat interface that needs to be enhanced with file upload as the initial screen
+- We need to maintain the existing assistant-ui integration while adding the new features

@@ -13,14 +13,21 @@ import { Separator } from "@/components/ui/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useFile } from "@/contexts/file-context";
 
 export const Assistant = () => {
-  const runtime = useChatRuntime();
+  const { fileId } = useFile();
+  
+  // Configure the runtime to include fileId in requests
+  const runtime = useChatRuntime({
+    api: "/api/chat",
+    body: {
+      fileId: fileId,
+    },
+  } as any);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
@@ -33,14 +40,8 @@ export const Assistant = () => {
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="https://www.assistant-ui.com/docs/getting-started" target="_blank" rel="noopener noreferrer">
-                      Build Your Own ChatGPT UX
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Starter Template</BreadcrumbPage>
+                    <BreadcrumbPage>Math Homework Assistant</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

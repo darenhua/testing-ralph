@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Github, MessagesSquare } from "lucide-react"
+import { Github, MessagesSquare, FileUpIcon } from "lucide-react"
 import Link from "next/link"
 import {
   Sidebar,
@@ -10,10 +10,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { ThreadList } from "./assistant-ui/thread-list"
+import { useFile } from "@/contexts/file-context"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { fileId, setFileId } = useFile();
+  
+  const handleNewUpload = () => {
+    setFileId(null);
+  };
+  
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -25,11 +33,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <MessagesSquare className="size-4" />
                   </div>
                   <div className="flex flex-col gap-0.5 leading-none">
-                    <span className="font-semibold">assistant-ui</span>
+                    <span className="font-semibold">Math Assistant</span>
                   </div>
                 </Link>
               </SidebarMenuButton>
           </SidebarMenuItem>
+          {fileId && (
+            <>
+              <SidebarSeparator />
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={handleNewUpload}>
+                  <FileUpIcon className="size-4" />
+                  <span>Upload New File</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </>
+          )}
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
